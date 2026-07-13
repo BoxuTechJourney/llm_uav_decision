@@ -1,2 +1,9 @@
 .DS_Store
 *.pyc
+__pycache__/
+.pytest_cache/
+.env
+.env.*
+API_key.txt
+agent4drone/llm_settings.json
+agent4drone/logs/
