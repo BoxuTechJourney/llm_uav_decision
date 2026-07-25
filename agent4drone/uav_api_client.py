@@ -5,7 +5,7 @@ Wrapper for the UAV Control System API to simplify drone operations
 import json
 import requests
 from datetime import datetime
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, Tuple, Union
 
 from logging_config import get_logger
 
@@ -86,7 +86,14 @@ def _sanitize_command_response(endpoint: str, value: Any) -> Any:
 class UAVAPIClient:
     """Client for interacting with the UAV Control System API"""
 
-    def __init__(self, base_url: str = "http://localhost:8000", api_key: Optional[str] = None):
+    DEFAULT_REQUEST_TIMEOUT = (5.0, 60.0)
+
+    def __init__(
+        self,
+        base_url: str = "http://localhost:8000",
+        api_key: Optional[str] = None,
+        request_timeout: Union[float, Tuple[float, float]] = DEFAULT_REQUEST_TIMEOUT,
+    ):
         """
         Initialize UAV API Client
 
@@ -95,9 +102,11 @@ class UAVAPIClient:
             api_key: Optional API key for authentication (defaults to USER role if not provided)
                     - None or empty: USER role (basic access)
                     - Valid key: SYSTEM or ADMIN role (based on key)
+            request_timeout: Requests connect/read timeout. Defaults to (5s, 60s).
         """
         self.base_url = base_url.rstrip('/')
         self.api_key = api_key
+        self.request_timeout = request_timeout
         self.headers = {}
         if self.api_key:
             self.headers['X-API-Key'] = self.api_key
@@ -157,6 +166,7 @@ class UAVAPIClient:
         # Merge authentication headers with any provided headers
         headers = kwargs.pop('headers', {})
         headers.update(self.headers)
+        kwargs.setdefault('timeout', self.request_timeout)
 
         logger.info(
             "MultiUAV-Plat request method=%s endpoint=%s params=%s json=%s data=%s",

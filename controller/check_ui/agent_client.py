@@ -143,6 +143,28 @@ class AgentClient:
             self.logger.error(f"Error getting job status for {job_id}: {type(e).__name__}: {e}")
             return None
 
+    def cancel_job(self, job_id: str) -> bool:
+        """Best-effort cancellation for a queued or running agent job."""
+        try:
+            response = self.session.post(
+                f"{self.base_url}/agent/jobs/{job_id}/cancel",
+                timeout=10,
+            )
+            if 200 <= response.status_code < 300:
+                self.logger.info(f"Cancellation requested for job {job_id}")
+                return True
+            self.logger.warning(
+                "Failed to cancel job %s. Status: %s, Response: %s",
+                job_id,
+                response.status_code,
+                self._preview(response.text),
+            )
+        except requests.exceptions.RequestException as e:
+            self.logger.warning(
+                f"Error cancelling job {job_id}: {type(e).__name__}: {e}"
+            )
+        return False
+
     def wait_for_completion(
         self,
         job_id: str,
@@ -179,6 +201,7 @@ class AgentClient:
             # Check timeout
             if elapsed > timeout:
                 self.logger.error(f"Job {job_id} timed out after {elapsed:.1f}s")
+                self.cancel_job(job_id)
                 return False, None
 
             # Get job status
@@ -194,6 +217,7 @@ class AgentClient:
                         f"Failed to get status for job {job_id} after "
                         f"{consecutive_status_failures} consecutive attempts"
                     )
+                    self.cancel_job(job_id)
                     return False, None
                 time.sleep(poll_interval)
                 continue
@@ -209,6 +233,7 @@ class AgentClient:
                     should_continue = status_callback(status, elapsed)
                     if not should_continue:
                         self.logger.info(f"Job {job_id} monitoring cancelled by callback")
+                        self.cancel_job(job_id)
                         return False, None
                 except Exception as e:
                     self.logger.error(f"Error in status callback: {e}")
@@ -223,6 +248,10 @@ class AgentClient:
             elif status == 'failed':
                 error = job_info.get('error', 'Unknown error')
                 self.logger.error(f"Job {job_id} failed: {error}")
+                return False, job_info
+
+            elif status == 'cancelled':
+                self.logger.info(f"Job {job_id} is cancelled")
                 return False, job_info
 
             # Still running or queued, wait before next poll

@@ -1,0 +1,19 @@
+Warning: Could not refresh session context: API request failed: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /sessions/current (Caused by NewConnectionError("HTTPConnection(host='localhost', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52410 - "GET /health HTTP/1.1" 200 OK

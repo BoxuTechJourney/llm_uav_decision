@@ -37,6 +37,7 @@ def test_move_to_logs_command_endpoint_and_params(monkeypatch, caplog):
     assert captured["method"] == "POST"
     assert captured["url"] == "http://multi-uav.test/drones/drone-1/command/move_to"
     assert captured["kwargs"]["params"] == {"x": 10, "y": 20, "z": 15}
+    assert captured["kwargs"]["timeout"] == (5.0, 60.0)
     assert "MultiUAV-Plat request method=POST endpoint=/drones/drone-1/command/move_to" in caplog.text
     assert 'params={"x": 10, "y": 20, "z": 15}' in caplog.text
     assert "json=null" in caplog.text
@@ -218,3 +219,40 @@ def test_request_preserves_request_exception_mapping(monkeypatch):
 
     with pytest.raises(Exception, match="API request failed: connection refused"):
         UAVAPIClient().land("drone-1")
+
+
+def test_request_timeout_can_be_overridden(monkeypatch):
+    captured = {}
+
+    def fake_request(method, url, headers=None, **kwargs):
+        captured.update(kwargs)
+        return FakeResponse({"success": True})
+
+    monkeypatch.setattr(requests, "request", fake_request)
+
+    result = UAVAPIClient()._request("GET", "/drones", timeout=(1.0, 2.0))
+
+    assert result == {"success": True}
+    assert captured["timeout"] == (1.0, 2.0)
+
+
+def test_read_timeout_is_recorded_without_retry(monkeypatch):
+    call_count = 0
+
+    def fake_request(method, url, headers=None, **kwargs):
+        nonlocal call_count
+        call_count += 1
+        raise requests.exceptions.ReadTimeout("server stalled")
+
+    monkeypatch.setattr(requests, "request", fake_request)
+    client = UAVAPIClient()
+    client.start_api_call_recording()
+
+    with pytest.raises(Exception, match="API request failed: server stalled"):
+        client.move_along_path("drone-1", [{"x": 1.0, "y": 2.0}])
+
+    records = client.stop_api_call_recording()
+    assert call_count == 1
+    assert records[0]["success"] is False
+    assert records[0]["status_code"] is None
+    assert records[0]["error"] == "API request failed: server stalled"

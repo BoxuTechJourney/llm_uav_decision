@@ -1,0 +1,13 @@
+2026-07-13 12:13:54 [INFO] uav_system.commands - COMMAND EXECUTED - Drone: a00c5ada | Command: take_off | Params: {'altitude': 20.0} | Result: SUCCESS | Session: 4e841a71
+2026-07-13 12:13:54 [INFO] uav_system.commands - COMMAND EXECUTED - Drone: 346efb66 | Command: take_off | Params: {'altitude': 20.0} | Result: SUCCESS | Session: 4e841a71
+2026-07-13 12:14:01 [INFO] uav_system.commands - COMMAND EXECUTED - Drone: a00c5ada | Command: move_to | Params: {'x': 304.0, 'y': 47.0, 'z': 20.0} | Result: SUCCESS | Session: 4e841a71
+2026-07-13 12:14:01 [INFO] uav_system.commands - COMMAND EXECUTED - Drone: 346efb66 | Command: move_to | Params: {'x': 760.0, 'y': 288.0, 'z': 20.0} | Result: SUCCESS | Session: 4e841a71
+2026-07-13 12:27:29 [INFO] uav_system.commands - COMMAND EXECUTED - Drone: 1d82562c | Command: take_off | Params: {'altitude': 20.0} | Result: SUCCESS | Session: 4e841a71
+2026-07-13 12:27:29 [INFO] uav_system.commands - COMMAND EXECUTED - Drone: f5ab7197 | Command: take_off | Params: {'altitude': 20.0} | Result: SUCCESS | Session: 4e841a71
+2026-07-13 12:27:42 [INFO] uav_system.commands - COMMAND EXECUTED - Drone: 1d82562c | Command: move_to | Params: {'x': 362.0, 'y': 429.0, 'z': 20.0} | Result: SUCCESS | Session: 4e841a71
+2026-07-13 12:27:42 [INFO] uav_system.commands - COMMAND EXECUTED - Drone: f5ab7197 | Command: move_to | Params: {'x': 224.0, 'y': 201.0, 'z': 20.0} | Result: SUCCESS | Session: 4e841a71
+2026-07-13 12:31:06 [INFO] uav_system.commands - COMMAND EXECUTED - Drone: a00c5ada | Command: move_to | Params: {'x': 67.0, 'y': 173.0, 'z': 46.0} | Result: SUCCESS | Session: 4e841a71
+2026-07-13 12:33:38 [INFO] uav_system.commands - COMMAND EXECUTED - Drone: a00c5ada | Command: change_altitude | Params: {'altitude': 90.0} | Result: SUCCESS | Session: 4e841a71
+2026-07-13 12:33:47 [INFO] uav_system.commands - COMMAND EXECUTED - Drone: a00c5ada | Command: move_to | Params: {'x': 304.0, 'y': 47.0, 'z': 90.0} | Result: SUCCESS | Session: 4e841a71
+2026-07-13 12:33:59 [INFO] uav_system.commands - COMMAND EXECUTED - Drone: a00c5ada | Command: move_to | Params: {'x': 67.0, 'y': 173.0, 'z': 90.0} | Result: SUCCESS | Session: 4e841a71
+2026-07-13 12:34:06 [INFO] uav_system.commands - COMMAND EXECUTED - Drone: a00c5ada | Command: change_altitude | Params: {'altitude': 46.0} | Result: SUCCESS | Session: 4e841a71

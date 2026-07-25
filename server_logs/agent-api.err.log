@@ -1,0 +1,238 @@
+INFO:     Started server process [40044]
+INFO:     Waiting for application startup.
+2026-07-13 12:12:43,467 [INFO] agent_api_service: Attempting to initialize UAV Agent...
+2026-07-13 12:12:43,470 [INFO] agent_api_service: Initializing Agent with Provider: Deepseek API, Model: deepseek-v4-pro
+2026-07-13 12:12:43,470 [INFO] agent_api_service: Agent blackboard sharing by session: True
+2026-07-13 12:12:43,471 [INFO] agent_api_service: Agent tool-chain JSON recording: False
+2026-07-13 12:12:43,473 [INFO] uav_agent: Initializing UAVControlAgent provider=openai-compatible model=deepseek-v4-pro base_url=http://localhost:8000
+2026-07-13 12:12:43,475 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/sessions/current params=null json=null data=null
+2026-07-13 12:12:45,507 [INFO] uav_agent: Connected to UAV API session_id=4e841a71 task=None
+2026-07-13 12:12:45,509 [INFO] langchain_openai.chat_models._client_utils: langchain-openai detected system proxy configuration and no explicit `http_socket_options` / `http_client` / `http_async_client` / `openai_proxy`; skipping the custom `httpx` transport so httpx's env-proxy auto-detection applies. Pass `http_socket_options=[...]` to opt back into kernel-level TCP keepalive tuning on top of the env proxy.
+2026-07-13 12:12:46,132 [INFO] uav_agent: Created 29 UAV control tools
+2026-07-13 12:12:46,139 [INFO] uav_agent: Agent runtime created
+2026-07-13 12:12:46,141 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/sessions/current params=null json=null data=null
+2026-07-13 12:12:48,171 [INFO] agent_api_service: UAV Agent initialized successfully.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:18000 (Press CTRL+C to quit)
+2026-07-13 12:13:25,528 [INFO] agent_api_service: Starting processing for Job 44e5ecb2-c977-4451-84f4-a7fc725108e4
+2026-07-13 12:13:25,529 [INFO] uav_agent: Command started command_id=e99d4ede-9151-4da0-ac72-faf314f36b31 provider=openai-compatible model=deepseek-v4-pro command_length=239 command="For the current UAV simulation session, inspect the available drones and targets, then take off two idle drones to 20 meters and move them a short safe distance so the 3D viewer can show live motion and path history. Keep the plan concise."
+2026-07-13 12:13:25,529 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/sessions/current params=null json=null data=null
+2026-07-13 12:13:28,260 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:13:31,196 [INFO] uav_agent: Provider LLM call completed command_id=e99d4ede-9151-4da0-ac72-faf314f36b31 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=8436 completion_tokens=124 total_tokens=8560 llm_calls=1
+2026-07-13 12:13:31,199 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones params=null json=null data=null
+2026-07-13 12:13:31,202 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/environments/current params=null json=null data=null
+2026-07-13 12:13:33,577 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:13:38,396 [INFO] uav_agent: Provider LLM call completed command_id=e99d4ede-9151-4da0-ac72-faf314f36b31 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=9714 completion_tokens=306 total_tokens=10020 llm_calls=1
+2026-07-13 12:13:38,397 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/a00c5ada/nearby params=null json=null data=null
+2026-07-13 12:13:40,450 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/346efb66/nearby params=null json=null data=null
+2026-07-13 12:13:42,827 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:13:51,998 [INFO] uav_agent: Provider LLM call completed command_id=e99d4ede-9151-4da0-ac72-faf314f36b31 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=10927 completion_tokens=529 total_tokens=11456 llm_calls=1
+2026-07-13 12:13:52,000 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/a00c5ada/command/take_off params={"altitude": 20.0} json=null data=null
+2026-07-13 12:13:52,000 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/346efb66/command/take_off params={"altitude": 20.0} json=null data=null
+2026-07-13 12:13:54,046 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/346efb66/command/take_off response={"command": "take_off", "drone_id": "346efb66", "message": "Drone taking off to altitude 20.0m (battery: -0.5%/-0mAh, remaining: 99.5%/83mAh)", "status": "success"}
+2026-07-13 12:13:54,046 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/a00c5ada/command/take_off response={"command": "take_off", "drone_id": "a00c5ada", "message": "Drone taking off to altitude 20.0m (battery: -0.5%/-0mAh, remaining: 99.5%/74mAh)", "status": "success"}
+2026-07-13 12:13:54,491 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:13:59,234 [INFO] uav_agent: Provider LLM call completed command_id=e99d4ede-9151-4da0-ac72-faf314f36b31 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=11670 completion_tokens=321 total_tokens=11991 llm_calls=1
+2026-07-13 12:13:59,237 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/a00c5ada/command/move_to params={"x": 304.0, "y": 47.0, "z": 20.0} json=null data=null
+2026-07-13 12:13:59,237 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/346efb66/command/move_to params={"x": 760.0, "y": 288.0, "z": 20.0} json=null data=null
+2026-07-13 12:14:01,531 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/a00c5ada/command/move_to response={"command": "move_to", "drone_id": "a00c5ada", "message": "Drone moved to position (304.0, 47.0, 20.0), heading: 90.0° (battery: -0.1%/-0mAh, remaining: 99.4%/74mAh)", "status": "success"}
+2026-07-13 12:14:01,531 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/346efb66/command/move_to response={"command": "move_to", "drone_id": "346efb66", "message": "Drone moved to position (760.0, 288.0, 20.0), heading: 0.0° (battery: -0.1%/-0mAh, remaining: 99.4%/82mAh)", "status": "success"}
+2026-07-13 12:14:01,946 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:14:06,605 [INFO] uav_agent: Provider LLM call completed command_id=e99d4ede-9151-4da0-ac72-faf314f36b31 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=12238 completion_tokens=228 total_tokens=12466 llm_calls=1
+2026-07-13 12:14:06,607 [INFO] uav_agent: Command completed command_id=e99d4ede-9151-4da0-ac72-faf314f36b31 success=True steps=7 retries=0 prompt_tokens=52985 completion_tokens=1508 total_tokens=54493 llm_calls=5 tools=['list_drones', 'get_weather', 'sense_nearby_entities', 'take_off', 'take_off', 'move_to', 'move_to']
+2026-07-13 12:14:06,607 [INFO] agent_api_service: Job 44e5ecb2-c977-4451-84f4-a7fc725108e4 completed successfully.
+2026-07-13 12:22:14,233 [INFO] agent_api_service: Starting processing for Job 9117120f-2e01-4b2b-a36a-9f1513d18ed1
+2026-07-13 12:22:14,233 [INFO] uav_agent: Command started command_id=3ee43cce-7251-48a8-9eed-2793243637fd provider=openai-compatible model=deepseek-v4-pro command_length=41 command="? Drone 1 ??? 20 ?,?????? 30 ????????????"
+2026-07-13 12:22:14,234 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/sessions/current params=null json=null data=null
+2026-07-13 12:22:16,885 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:22:20,386 [INFO] uav_agent: Provider LLM call completed command_id=3ee43cce-7251-48a8-9eed-2793243637fd provider=openai-compatible model=deepseek-v4-pro prompt_tokens=8402 completion_tokens=183 total_tokens=8585 llm_calls=1
+2026-07-13 12:22:20,390 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones params=null json=null data=null
+2026-07-13 12:22:20,391 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/environments/current params=null json=null data=null
+2026-07-13 12:22:22,772 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:22:31,551 [INFO] uav_agent: Provider LLM call completed command_id=3ee43cce-7251-48a8-9eed-2793243637fd provider=openai-compatible model=deepseek-v4-pro prompt_tokens=9746 completion_tokens=414 total_tokens=10160 llm_calls=1
+2026-07-13 12:22:31,553 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/a00c5ada/nearby params=null json=null data=null
+2026-07-13 12:22:34,030 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:22:41,840 [INFO] uav_agent: Provider LLM call completed command_id=3ee43cce-7251-48a8-9eed-2793243637fd provider=openai-compatible model=deepseek-v4-pro prompt_tokens=10990 completion_tokens=448 total_tokens=11438 llm_calls=1
+2026-07-13 12:22:41,842 [WARNING] uav_agent: Command stopped without verified completion command_id=3ee43cce-7251-48a8-9eed-2793243637fd steps=3 reason=Agent final response did not include [TASK DONE]; task completion was not verified. retries=0 prompt_tokens=29138 completion_tokens=1045 total_tokens=30183 llm_calls=3 tools=['list_drones', 'get_weather', 'sense_nearby_entities'] last_observation="{ "sensed_drone_ids": [ "a00c5ada" ], "per_drone": { "a00c5ada": { "drone_id": null, "counts": { "targets": 1, "obstacles": 2, "drones": 0 }, "targets": [ { "id": "7e33d49a", "name": "Polygon Target 5", "type": "polygon", "position": { "x": 394.0, "y": 162.0, "z": 0.0 }, "radius": 1.0, "vertex_count": 4 } ], "obstacles": [ { "id": "d780fb71", "name": "Polygon Obstacle 3", "type": "polygon", "position": { "x": 247.0, "y": 145.0, "z": 0.0 }, "vertex_count": 4 }, { "id": "d6fa91d3", "name": "Circle..."
+2026-07-13 12:22:41,842 [INFO] agent_api_service: Job 9117120f-2e01-4b2b-a36a-9f1513d18ed1 completed successfully.
+2026-07-13 12:25:33,876 [INFO] agent_api_service: Starting processing for Job add9ba1e-035e-455f-b1ce-9c324aa59e56
+2026-07-13 12:25:33,876 [INFO] uav_agent: Command started command_id=9bb30311-0525-4bad-a9ed-489bacf81884 provider=openai-compatible model=deepseek-v4-pro command_length=94 command="?????????????????????,??????20???,???????????25?;????????,????3D??????????????????????????????"
+2026-07-13 12:25:33,878 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/sessions/current params=null json=null data=null
+2026-07-13 12:25:36,475 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:25:42,513 [INFO] uav_agent: Provider LLM call completed command_id=9bb30311-0525-4bad-a9ed-489bacf81884 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=8410 completion_tokens=254 total_tokens=8664 llm_calls=1
+2026-07-13 12:25:42,516 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones params=null json=null data=null
+2026-07-13 12:25:42,518 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/environments/current params=null json=null data=null
+2026-07-13 12:25:44,882 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:25:53,248 [INFO] uav_agent: Provider LLM call completed command_id=9bb30311-0525-4bad-a9ed-489bacf81884 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=9827 completion_tokens=368 total_tokens=10195 llm_calls=1
+2026-07-13 12:25:53,251 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones params=null json=null data=null
+2026-07-13 12:25:55,279 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/a00c5ada/nearby params=null json=null data=null
+2026-07-13 12:25:57,312 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/346efb66/nearby params=null json=null data=null
+2026-07-13 12:25:59,349 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/74cb0fbd/nearby params=null json=null data=null
+2026-07-13 12:26:01,383 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/f5ab7197/nearby params=null json=null data=null
+2026-07-13 12:26:03,419 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/1d82562c/nearby params=null json=null data=null
+2026-07-13 12:26:05,451 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/ddd80bbc/nearby params=null json=null data=null
+2026-07-13 12:26:07,483 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/9fb7eb47/nearby params=null json=null data=null
+2026-07-13 12:26:09,518 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/68a063b5/nearby params=null json=null data=null
+2026-07-13 12:26:11,564 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/52a907aa/nearby params=null json=null data=null
+2026-07-13 12:26:13,598 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/6390ceb4/nearby params=null json=null data=null
+2026-07-13 12:26:16,304 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:26:27,842 [INFO] uav_agent: Provider LLM call completed command_id=9bb30311-0525-4bad-a9ed-489bacf81884 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=14180 completion_tokens=563 total_tokens=14743 llm_calls=1
+2026-07-13 12:26:27,843 [WARNING] uav_agent: Command stopped without verified completion command_id=9bb30311-0525-4bad-a9ed-489bacf81884 steps=3 reason=Agent final response did not include [TASK DONE]; task completion was not verified. retries=0 prompt_tokens=32417 completion_tokens=1185 total_tokens=33602 llm_calls=3 tools=['list_drones', 'get_weather', 'sense_nearby_entities'] last_observation="{ "sensed_drone_ids": [ "a00c5ada", "346efb66", "74cb0fbd", "f5ab7197", "1d82562c", "ddd80bbc", "9fb7eb47", "68a063b5", "52a907aa", "6390ceb4" ], "per_drone": { "a00c5ada": { "drone_id": null, "counts": { "targets": 1, "obstacles": 2, "drones": 0 }, "targets": [ { "id": "7e33d49a", "name": "Polygon Target 5", "type": "polygon", "position": { "x": 394.0, "y": 162.0, "z": 0.0 }, "radius": 1.0, "vertex_count": 4 } ], "obstacles": [ { "id": "d780fb71", "name": "Polygon Obstacle 3", "type": "polygon"..."
+2026-07-13 12:26:27,845 [INFO] agent_api_service: Job add9ba1e-035e-455f-b1ce-9c324aa59e56 completed successfully.
+2026-07-13 12:27:04,170 [INFO] agent_api_service: Starting processing for Job 110a3720-a380-4d32-aade-0679c445e07a
+2026-07-13 12:27:04,170 [INFO] uav_agent: Command started command_id=7c20e137-8628-412e-9d65-4b13381bb0ec provider=openai-compatible model=deepseek-v4-pro command_length=301 command="Use the UAV API tools now. Take off drone f5ab7197 to altitude 20 meters, then move it to x=224, y=201, z=20. Also take off drone 1d82562c to altitude 20 meters, then move it to x=362, y=429, z=20. After the API commands complete, report the final positions and end your final answer with [TASK DONE]."
+2026-07-13 12:27:04,170 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/sessions/current params=null json=null data=null
+2026-07-13 12:27:06,831 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:27:10,673 [INFO] uav_agent: Provider LLM call completed command_id=7c20e137-8628-412e-9d65-4b13381bb0ec provider=openai-compatible model=deepseek-v4-pro prompt_tokens=8477 completion_tokens=196 total_tokens=8673 llm_calls=1
+2026-07-13 12:27:10,678 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones params=null json=null data=null
+2026-07-13 12:27:10,679 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/environments/current params=null json=null data=null
+2026-07-13 12:27:13,079 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:27:18,978 [INFO] uav_agent: Provider LLM call completed command_id=7c20e137-8628-412e-9d65-4b13381bb0ec provider=openai-compatible model=deepseek-v4-pro prompt_tokens=9836 completion_tokens=269 total_tokens=10105 llm_calls=1
+2026-07-13 12:27:18,981 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/f5ab7197/nearby params=null json=null data=null
+2026-07-13 12:27:21,006 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/1d82562c/nearby params=null json=null data=null
+2026-07-13 12:27:23,465 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:27:27,138 [INFO] uav_agent: Provider LLM call completed command_id=7c20e137-8628-412e-9d65-4b13381bb0ec provider=openai-compatible model=deepseek-v4-pro prompt_tokens=12577 completion_tokens=242 total_tokens=12819 llm_calls=1
+2026-07-13 12:27:27,140 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/f5ab7197/command/take_off params={"altitude": 20.0} json=null data=null
+2026-07-13 12:27:27,140 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/1d82562c/command/take_off params={"altitude": 20.0} json=null data=null
+2026-07-13 12:27:29,174 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/1d82562c/command/take_off response={"command": "take_off", "drone_id": "1d82562c", "message": "Drone taking off to altitude 20.0m (battery: -0.5%/-0mAh, remaining: 99.5%/83mAh)", "status": "success"}
+2026-07-13 12:27:29,174 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/f5ab7197/command/take_off response={"command": "take_off", "drone_id": "f5ab7197", "message": "Drone taking off to altitude 20.0m (battery: -0.5%/-0mAh, remaining: 99.5%/74mAh)", "status": "success"}
+2026-07-13 12:27:29,592 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:27:36,269 [INFO] uav_agent: Provider LLM call completed command_id=7c20e137-8628-412e-9d65-4b13381bb0ec provider=openai-compatible model=deepseek-v4-pro prompt_tokens=13030 completion_tokens=416 total_tokens=13446 llm_calls=1
+2026-07-13 12:27:36,271 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/f5ab7197 params=null json=null data=null
+2026-07-13 12:27:36,271 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/1d82562c params=null json=null data=null
+2026-07-13 12:27:38,301 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/f5ab7197 params=null json=null data=null
+2026-07-13 12:27:38,302 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/1d82562c params=null json=null data=null
+2026-07-13 12:27:40,330 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/1d82562c/command/move_to params={"x": 362.0, "y": 429.0, "z": 20.0} json=null data=null
+2026-07-13 12:27:40,332 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/f5ab7197/command/move_to params={"x": 224.0, "y": 201.0, "z": 20.0} json=null data=null
+2026-07-13 12:27:42,381 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/1d82562c/command/move_to response={"command": "move_to", "drone_id": "1d82562c", "message": "Drone moved to position (362.0, 429.0, 20.0), heading: 0.0° (battery: -0.2%/-0mAh, remaining: 99.3%/82mAh)", "status": "success"}
+2026-07-13 12:27:42,382 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/1d82562c params=null json=null data=null
+2026-07-13 12:27:42,387 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/f5ab7197/command/move_to response={"command": "move_to", "drone_id": "f5ab7197", "message": "Drone moved to position (224.0, 201.0, 20.0), heading: 90.0° (battery: -0.2%/-0mAh, remaining: 99.3%/73mAh)", "status": "success"}
+2026-07-13 12:27:42,387 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/f5ab7197 params=null json=null data=null
+2026-07-13 12:27:45,154 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:27:49,304 [INFO] uav_agent: Provider LLM call completed command_id=7c20e137-8628-412e-9d65-4b13381bb0ec provider=openai-compatible model=deepseek-v4-pro prompt_tokens=13864 completion_tokens=211 total_tokens=14075 llm_calls=1
+2026-07-13 12:27:49,307 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/f5ab7197 params=null json=null data=null
+2026-07-13 12:27:49,307 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/1d82562c params=null json=null data=null
+2026-07-13 12:27:51,769 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:27:55,589 [INFO] uav_agent: Provider LLM call completed command_id=7c20e137-8628-412e-9d65-4b13381bb0ec provider=openai-compatible model=deepseek-v4-pro prompt_tokens=14550 completion_tokens=216 total_tokens=14766 llm_calls=1
+2026-07-13 12:27:55,590 [INFO] uav_agent: Command completed command_id=7c20e137-8628-412e-9d65-4b13381bb0ec success=True steps=9 retries=0 prompt_tokens=72334 completion_tokens=1550 total_tokens=73884 llm_calls=6 tools=['list_drones', 'get_weather', 'sense_nearby_entities', 'take_off', 'take_off', 'navigate_to', 'navigate_to', 'get_drone_status', 'get_drone_status']
+2026-07-13 12:27:55,590 [INFO] agent_api_service: Job 110a3720-a380-4d32-aade-0679c445e07a completed successfully.
+2026-07-13 12:30:40,767 [INFO] agent_api_service: Starting processing for Job 27db6cc5-ffe5-4b76-af73-cb73b3b6bd33
+2026-07-13 12:30:40,767 [INFO] uav_agent: Command started command_id=76d0338c-f8d6-477c-9b24-35c6d79033a0 provider=openai-compatible model=deepseek-v4-pro command_length=307 command="Use the UAV API tools now. Move Drone 1 with id a00c5ada to fly above Polygon Obstacle 1. The obstacle center is x=67, y=173 and obstacle height is 36 meters, so command Drone 1 to move to x=67, y=173, z=46. After the move completes, report Drone 1 final position and end your final answer with [TASK DONE]."
+2026-07-13 12:30:40,769 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/sessions/current params=null json=null data=null
+2026-07-13 12:30:43,416 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:30:46,419 [INFO] uav_agent: Provider LLM call completed command_id=76d0338c-f8d6-477c-9b24-35c6d79033a0 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=8478 completion_tokens=157 total_tokens=8635 llm_calls=1
+2026-07-13 12:30:46,423 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones params=null json=null data=null
+2026-07-13 12:30:46,425 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/environments/current params=null json=null data=null
+2026-07-13 12:30:48,790 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:30:53,417 [INFO] uav_agent: Provider LLM call completed command_id=76d0338c-f8d6-477c-9b24-35c6d79033a0 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=9803 completion_tokens=240 total_tokens=10043 llm_calls=1
+2026-07-13 12:30:53,419 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/a00c5ada/nearby params=null json=null data=null
+2026-07-13 12:30:55,881 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:31:00,100 [INFO] uav_agent: Provider LLM call completed command_id=76d0338c-f8d6-477c-9b24-35c6d79033a0 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=11912 completion_tokens=261 total_tokens=12173 llm_calls=1
+2026-07-13 12:31:00,103 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/a00c5ada params=null json=null data=null
+2026-07-13 12:31:02,136 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/a00c5ada params=null json=null data=null
+2026-07-13 12:31:04,165 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/a00c5ada/command/move_to params={"x": 67.0, "y": 173.0, "z": 46.0} json=null data=null
+2026-07-13 12:31:06,201 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/a00c5ada/command/move_to response={"command": "move_to", "drone_id": "a00c5ada", "message": "Drone moved to position (67.0, 173.0, 46.0), heading: 298.0° (battery: -3.6%/-3mAh, remaining: 95.8%/71mAh)", "status": "success"}
+2026-07-13 12:31:06,202 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/a00c5ada params=null json=null data=null
+2026-07-13 12:31:08,901 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:31:13,241 [INFO] uav_agent: Provider LLM call completed command_id=76d0338c-f8d6-477c-9b24-35c6d79033a0 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=12384 completion_tokens=233 total_tokens=12617 llm_calls=1
+2026-07-13 12:31:13,247 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/a00c5ada params=null json=null data=null
+2026-07-13 12:31:15,677 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:31:19,545 [INFO] uav_agent: Provider LLM call completed command_id=76d0338c-f8d6-477c-9b24-35c6d79033a0 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=12863 completion_tokens=202 total_tokens=13065 llm_calls=1
+2026-07-13 12:31:19,546 [INFO] uav_agent: Command completed command_id=76d0338c-f8d6-477c-9b24-35c6d79033a0 success=True steps=5 retries=0 prompt_tokens=55440 completion_tokens=1093 total_tokens=56533 llm_calls=5 tools=['list_drones', 'get_weather', 'sense_nearby_entities', 'navigate_to', 'get_drone_status']
+2026-07-13 12:31:19,548 [INFO] agent_api_service: Job 27db6cc5-ffe5-4b76-af73-cb73b3b6bd33 completed successfully.
+2026-07-13 12:33:10,074 [INFO] agent_api_service: Starting processing for Job 212a2ad8-800b-4cf5-9765-7f77d8f2939a
+2026-07-13 12:33:10,075 [INFO] uav_agent: Command started command_id=d56fa671-c71c-4cfc-8d41-3124895aba10 provider=openai-compatible model=deepseek-v4-pro command_length=456 command="Correct the previous unsafe flight path. Use UAV API tools with Drone 1 id a00c5ada. First climb vertically to x=67, y=173, z=90. Then move to x=304, y=47, z=90 as a safe high-altitude reset point. Then move horizontally to x=67, y=173, z=90. Finally descend to x=67, y=173, z=46 above Polygon Obstacle 1. This route must keep altitude 90 while moving horizontally to clear all obstacles including height 78. Report final position and end with [TASK DONE]."
+2026-07-13 12:33:10,075 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/sessions/current params=null json=null data=null
+2026-07-13 12:33:12,712 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:33:16,196 [INFO] uav_agent: Provider LLM call completed command_id=d56fa671-c71c-4cfc-8d41-3124895aba10 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=8516 completion_tokens=206 total_tokens=8722 llm_calls=1
+2026-07-13 12:33:16,200 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones params=null json=null data=null
+2026-07-13 12:33:16,200 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/environments/current params=null json=null data=null
+2026-07-13 12:33:18,626 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:33:23,148 [INFO] uav_agent: Provider LLM call completed command_id=d56fa671-c71c-4cfc-8d41-3124895aba10 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=9892 completion_tokens=257 total_tokens=10149 llm_calls=1
+2026-07-13 12:33:23,151 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/a00c5ada/nearby params=null json=null data=null
+2026-07-13 12:33:25,601 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:33:36,515 [INFO] uav_agent: Provider LLM call completed command_id=d56fa671-c71c-4cfc-8d41-3124895aba10 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=13732 completion_tokens=696 total_tokens=14428 llm_calls=1
+2026-07-13 12:33:36,518 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/a00c5ada/command/change_altitude params={"altitude": 90.0} json=null data=null
+2026-07-13 12:33:38,559 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/a00c5ada/command/change_altitude response={"command": "change_altitude", "drone_id": "a00c5ada", "message": "Drone altitude changed to 90.0m (battery: -0.2%/-0mAh, remaining: 95.6%/71mAh)", "status": "success"}
+2026-07-13 12:33:38,978 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:33:41,550 [INFO] uav_agent: Provider LLM call completed command_id=d56fa671-c71c-4cfc-8d41-3124895aba10 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=14539 completion_tokens=155 total_tokens=14694 llm_calls=1
+2026-07-13 12:33:41,551 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/a00c5ada params=null json=null data=null
+2026-07-13 12:33:43,574 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/a00c5ada params=null json=null data=null
+2026-07-13 12:33:45,622 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/a00c5ada/command/move_to params={"x": 304.0, "y": 47.0, "z": 90.0} json=null data=null
+2026-07-13 12:33:47,648 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/a00c5ada/command/move_to response={"command": "move_to", "drone_id": "a00c5ada", "message": "Drone moved to position (304.0, 47.0, 90.0), heading: 118.0° (battery: -2.4%/-2mAh, remaining: 93.1%/69mAh)", "status": "success"}
+2026-07-13 12:33:47,648 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/a00c5ada params=null json=null data=null
+2026-07-13 12:33:50,429 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:33:53,191 [INFO] uav_agent: Provider LLM call completed command_id=d56fa671-c71c-4cfc-8d41-3124895aba10 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=14905 completion_tokens=185 total_tokens=15090 llm_calls=1
+2026-07-13 12:33:53,192 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/a00c5ada params=null json=null data=null
+2026-07-13 12:33:55,217 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/a00c5ada params=null json=null data=null
+2026-07-13 12:33:57,255 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/a00c5ada/command/move_to params={"x": 67.0, "y": 173.0, "z": 90.0} json=null data=null
+2026-07-13 12:33:59,292 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/a00c5ada/command/move_to response={"command": "move_to", "drone_id": "a00c5ada", "message": "Drone moved to position (67.0, 173.0, 90.0), heading: 298.0° (battery: -2.1%/-2mAh, remaining: 91.0%/67mAh)", "status": "success"}
+2026-07-13 12:33:59,292 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/a00c5ada params=null json=null data=null
+2026-07-13 12:34:02,058 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:34:04,361 [INFO] uav_agent: Provider LLM call completed command_id=d56fa671-c71c-4cfc-8d41-3124895aba10 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=15301 completion_tokens=139 total_tokens=15440 llm_calls=1
+2026-07-13 12:34:04,365 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/a00c5ada/command/change_altitude params={"altitude": 46.0} json=null data=null
+2026-07-13 12:34:06,416 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/a00c5ada/command/change_altitude response={"command": "change_altitude", "drone_id": "a00c5ada", "message": "Drone altitude changed to 46.0m (battery: -0.2%/-0mAh, remaining: 90.8%/67mAh)", "status": "success"}
+2026-07-13 12:34:06,859 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:34:09,569 [INFO] uav_agent: Provider LLM call completed command_id=d56fa671-c71c-4cfc-8d41-3124895aba10 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=15550 completion_tokens=180 total_tokens=15730 llm_calls=1
+2026-07-13 12:34:09,571 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/a00c5ada params=null json=null data=null
+2026-07-13 12:34:12,016 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-13 12:34:19,178 [INFO] uav_agent: Provider LLM call completed command_id=d56fa671-c71c-4cfc-8d41-3124895aba10 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=15976 completion_tokens=481 total_tokens=16457 llm_calls=1
+2026-07-13 12:34:19,179 [INFO] uav_agent: Command completed command_id=d56fa671-c71c-4cfc-8d41-3124895aba10 success=True steps=8 retries=0 prompt_tokens=108411 completion_tokens=2299 total_tokens=110710 llm_calls=8 tools=['list_drones', 'get_weather', 'sense_nearby_entities', 'change_altitude', 'navigate_to', 'navigate_to', 'change_altitude', 'get_drone_status']
+2026-07-13 12:34:19,179 [INFO] agent_api_service: Job 212a2ad8-800b-4cf5-9765-7f77d8f2939a completed successfully.
+2026-07-14 13:32:03,243 [INFO] agent_api_service: Starting processing for Job e940d9ab-8c08-4dcc-b4e2-9907f75c3f84
+2026-07-14 13:32:03,247 [INFO] uav_agent: Command started command_id=69013b09-bae6-40c5-894c-12bb5761ad13 provider=openai-compatible model=deepseek-v4-pro command_length=96 command="Drone Drone 1 takes off to 17 meters, flies to checkpoint at (594, 558, 17), and hovers briefly."
+2026-07-14 13:32:03,249 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/sessions/current params=null json=null data=null
+2026-07-14 13:32:06,005 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-14 13:32:07,827 [INFO] uav_agent: Provider LLM call completed command_id=69013b09-bae6-40c5-894c-12bb5761ad13 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=8417 completion_tokens=117 total_tokens=8534 llm_calls=1
+2026-07-14 13:32:07,833 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones params=null json=null data=null
+2026-07-14 13:32:07,834 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/environments/current params=null json=null data=null
+2026-07-14 13:32:10,206 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-14 13:32:14,645 [INFO] uav_agent: Provider LLM call completed command_id=69013b09-bae6-40c5-894c-12bb5761ad13 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=9179 completion_tokens=287 total_tokens=9466 llm_calls=1
+2026-07-14 13:32:14,647 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/eedfa187/nearby params=null json=null data=null
+2026-07-14 13:32:17,016 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-14 13:32:19,595 [INFO] uav_agent: Provider LLM call completed command_id=69013b09-bae6-40c5-894c-12bb5761ad13 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=9606 completion_tokens=173 total_tokens=9779 llm_calls=1
+2026-07-14 13:32:19,599 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/eedfa187/command/take_off params={"altitude": 17.0} json=null data=null
+2026-07-14 13:32:21,653 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/eedfa187/command/take_off response={"command": "take_off", "drone_id": "eedfa187", "message": "Drone taking off to altitude 17.0m (battery: -0.5%/-0mAh, remaining: 99.5%/74mAh)", "status": "success"}
+2026-07-14 13:32:21,999 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-14 13:32:23,850 [INFO] uav_agent: Provider LLM call completed command_id=69013b09-bae6-40c5-894c-12bb5761ad13 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=9886 completion_tokens=147 total_tokens=10033 llm_calls=1
+2026-07-14 13:32:23,852 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/eedfa187 params=null json=null data=null
+2026-07-14 13:32:25,876 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/eedfa187 params=null json=null data=null
+2026-07-14 13:32:27,897 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/eedfa187/command/move_to params={"x": 594.0, "y": 558.0, "z": 17.0} json=null data=null
+2026-07-14 13:32:30,036 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/eedfa187/command/move_to response={"command": "move_to", "drone_id": "eedfa187", "message": "Drone moved to position (594.0, 558.0, 17.0), heading: 139.0° (battery: -0.8%/-1mAh, remaining: 98.7%/73mAh)", "status": "success"}
+2026-07-14 13:32:30,037 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/eedfa187 params=null json=null data=null
+2026-07-14 13:32:32,612 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-14 13:32:35,479 [INFO] uav_agent: Provider LLM call completed command_id=69013b09-bae6-40c5-894c-12bb5761ad13 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=10241 completion_tokens=183 total_tokens=10424 llm_calls=1
+2026-07-14 13:32:35,486 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/eedfa187/command/hover params={"duration": 3.0} json=null data=null
+2026-07-14 13:32:37,533 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/eedfa187/command/hover response={"command": "hover", "drone_id": "eedfa187", "message": "Drone now hovering (battery: -0.1%/-0mAh, remaining: 98.6%/73mAh)", "status": "success"}
+2026-07-14 13:32:37,876 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-14 13:32:40,120 [INFO] uav_agent: Provider LLM call completed command_id=69013b09-bae6-40c5-894c-12bb5761ad13 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=10520 completion_tokens=121 total_tokens=10641 llm_calls=1
+2026-07-14 13:32:40,123 [INFO] uav_agent: Command completed command_id=69013b09-bae6-40c5-894c-12bb5761ad13 success=True steps=6 retries=0 prompt_tokens=57849 completion_tokens=1028 total_tokens=58877 llm_calls=6 tools=['list_drones', 'get_weather', 'sense_nearby_entities', 'take_off', 'navigate_to', 'hover']
+2026-07-14 13:32:40,124 [INFO] agent_api_service: Job e940d9ab-8c08-4dcc-b4e2-9907f75c3f84 completed successfully.
+2026-07-14 14:21:41,084 [INFO] agent_api_service: Starting processing for Job 931fd854-d4b0-4da6-aeab-b3b56969fa6c
+2026-07-14 14:21:41,085 [INFO] uav_agent: Command started command_id=e757fc0b-ff8a-48f5-b4f4-74994c437d02 provider=openai-compatible model=deepseek-v4-pro command_length=236 command="Drone Drone 4 executes comprehensive area search of target area Polygon Target 1. Take off to 23 meters and perform a systematic coverage pattern to search at least 95% of the target area using an efficient serpentine or spiral pattern."
+2026-07-14 14:21:41,088 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/sessions/current params=null json=null data=null
+2026-07-14 14:21:43,747 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-14 14:21:46,896 [INFO] uav_agent: Provider LLM call completed command_id=e757fc0b-ff8a-48f5-b4f4-74994c437d02 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=8436 completion_tokens=192 total_tokens=8628 llm_calls=1
+2026-07-14 14:21:46,901 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones params=null json=null data=null
+2026-07-14 14:21:46,902 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/environments/current params=null json=null data=null
+2026-07-14 14:21:46,904 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones params=null json=null data=null
+2026-07-14 14:21:48,931 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/4c077c20/nearby params=null json=null data=null
+2026-07-14 14:21:50,953 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/60ea8d3f/nearby params=null json=null data=null
+2026-07-14 14:21:52,994 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/2412d856/nearby params=null json=null data=null
+2026-07-14 14:21:55,035 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/0268e65d/nearby params=null json=null data=null
+2026-07-14 14:21:57,074 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/80cdc5b8/nearby params=null json=null data=null
+2026-07-14 14:21:59,102 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/0a3ea363/nearby params=null json=null data=null
+2026-07-14 14:22:01,136 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/73ecd73c/nearby params=null json=null data=null
+2026-07-14 14:22:03,164 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/711d2315/nearby params=null json=null data=null
+2026-07-14 14:22:05,195 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/0b7e1825/nearby params=null json=null data=null
+2026-07-14 14:22:07,246 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones/65292197/nearby params=null json=null data=null
+2026-07-14 14:22:10,039 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-14 14:22:20,711 [INFO] uav_agent: Provider LLM call completed command_id=e757fc0b-ff8a-48f5-b4f4-74994c437d02 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=15727 completion_tokens=814 total_tokens=16541 llm_calls=1
+2026-07-14 14:22:20,714 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/0268e65d/command/take_off params={"altitude": 23.0} json=null data=null
+2026-07-14 14:22:20,716 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/targets/e8fd6279 params=null json=null data=null
+2026-07-14 14:22:22,739 [INFO] uav_api_client: MultiUAV-Plat command response endpoint=/drones/0268e65d/command/take_off response={"command": "take_off", "drone_id": "0268e65d", "message": "Drone taking off to altitude 23.0m (battery: -0.5%/-0mAh, remaining: 99.5%/81mAh)", "status": "success"}
+2026-07-14 14:22:22,740 [INFO] uav_api_client: MultiUAV-Plat request method=GET endpoint=/drones params=null json=null data=null
+2026-07-14 14:22:25,246 [INFO] httpx: HTTP Request: POST https://api.deepseek.com/chat/completions "HTTP/1.1 200 OK"
+2026-07-14 14:22:28,863 [INFO] uav_agent: Provider LLM call completed command_id=e757fc0b-ff8a-48f5-b4f4-74994c437d02 provider=openai-compatible model=deepseek-v4-pro prompt_tokens=16843 completion_tokens=279 total_tokens=17122 llm_calls=1
+2026-07-14 14:22:28,870 [INFO] uav_api_client: MultiUAV-Plat request method=POST endpoint=/drones/0268e65d/command/move_along_path params=null json={"allow_partial_move": false, "waypoints": [{"x": 117.0, "y": 258.0}, {"x": 117.22999999999999, "y": 286.35}, {"x": 157.23, "y": 286.35}, {"x": 157.23, "y": 306.35}, {"x": 117.22999999999999, "y": 306.35}, {"x": 117.22999999999999, "y": 326.35}, {"x": 157.23, "y": 326.35}]} data=null
+2026-07-14 14:41:16,583 [INFO] agent_api_service: Cancellation requested for Job 931fd854-d4b0-4da6-aeab-b3b56969fa6c (was JobStatus.RUNNING)

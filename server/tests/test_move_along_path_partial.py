@@ -138,7 +138,7 @@ class MoveAlongPathPartialTests(unittest.TestCase):
             self._assert_no_point_feedback_fields(generic_move_to.json())
 
     def test_move_along_path_http_responses_include_point_feedback_fields(self):
-        self._create_session()
+        session_id = self._create_session()
         drone = self._create_drone()
         takeoff = self._take_off(drone["id"])
         self.assertEqual(takeoff["status"], "success")
@@ -170,6 +170,13 @@ class MoveAlongPathPartialTests(unittest.TestCase):
             self.assertEqual(generic_body["successful_points"], [[2.0, 1.0, 1.0]])
             self.assertEqual(generic_body["unsuccessful_points_count"], 0)
             self.assertEqual(generic_body["unsuccessful_points"], [])
+
+        session_obj = session_controller.sessions[session_id]
+        self.assertGreaterEqual(len(session_obj.path_history[drone["id"]]), 3)
+        self.assertEqual(
+            session_obj.path_history[drone["id"]][-1],
+            {"x": 2.0, "y": 1.0, "z": 1.0},
+        )
 
     def test_move_along_path_request_defaults_partial_move_to_false(self):
         request = MoveAlongPathRequest(waypoints=[{"x": 1.0, "y": 2.0, "z": 3.0}, {"x": 4.0, "y": 5.0, "z": 6.0}])

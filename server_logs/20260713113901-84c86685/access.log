@@ -1,0 +1,6 @@
+2026-07-13 11:39:01 [INFO] uav_system - Session log directory: C:\Users\Administrator\Desktop\Code\multi_uav_decision\server_logs\20260713113901-84c86685
+2026-07-13 11:39:01 [INFO] uav_system - Session ID: 20260713113901-84c86685
+2026-07-13 11:39:01 [INFO] uav_system - Request history retention: 5000 records for the current session
+2026-07-13 11:39:01 [INFO] uav_system - Starting API server at http://127.0.0.1:8000
+2026-07-13 11:39:01 [INFO] uav_system - API Documentation: http://127.0.0.1:8000/docs
+2026-07-13 11:39:17 [INFO] uav_system - 127.0.0.1 GET /favicon.ico 404 - 1ms

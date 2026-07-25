@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\Code\multi_uav_decision\server\main.py", line 328, in <module>
+    main()
+  File "C:\Users\Administrator\Desktop\Code\multi_uav_decision\server\main.py", line 227, in main
+    print_banner()
+  File "C:\Users\Administrator\Desktop\Code\multi_uav_decision\server\main.py", line 194, in print_banner
+    print(banner, flush=True)
+UnicodeEncodeError: 'gbk' codec can't encode character '\xa9' in position 386: illegal multibyte sequence

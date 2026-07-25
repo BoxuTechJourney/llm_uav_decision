@@ -1,0 +1,76 @@
+2026-07-14 12:51:44 [INFO] uav_system - Session log directory: C:\Users\Administrator\Desktop\Code\multi_uav_decision\server\server_logs\20260714125144-cf6f1c73
+2026-07-14 12:51:44 [INFO] uav_system - Session ID: 20260714125144-cf6f1c73
+2026-07-14 12:51:44 [INFO] uav_system - Request history retention: 5000 records for the current session
+2026-07-14 12:51:44 [INFO] uav_system - Starting API server at http://127.0.0.1:8000
+2026-07-14 12:51:44 [INFO] uav_system - API Documentation: http://127.0.0.1:8000/docs
+2026-07-14 12:51:56 [INFO] uav_system - 127.0.0.1 GET /version 200 - 1ms - Role: agent
+2026-07-14 12:52:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 7ms - Role: system
+2026-07-14 12:52:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 5ms - Role: system
+2026-07-14 12:52:12 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 2ms - Role: system
+2026-07-14 12:53:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 5ms - Role: system
+2026-07-14 12:53:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 7ms - Role: system
+2026-07-14 12:54:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 7ms - Role: system
+2026-07-14 12:54:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 3ms - Role: system
+2026-07-14 12:55:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 12:55:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 3ms - Role: system
+2026-07-14 12:56:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 6ms - Role: system
+2026-07-14 12:56:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 5ms - Role: system
+2026-07-14 12:57:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 5ms - Role: system
+2026-07-14 12:57:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 12:58:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 7ms - Role: system
+2026-07-14 12:58:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 12:59:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 8ms - Role: system
+2026-07-14 12:59:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:00:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 6ms - Role: system
+2026-07-14 13:00:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:01:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 5ms - Role: system
+2026-07-14 13:01:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 3ms - Role: system
+2026-07-14 13:02:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 6ms - Role: system
+2026-07-14 13:02:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 5ms - Role: system
+2026-07-14 13:03:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:03:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 5ms - Role: system
+2026-07-14 13:03:45 [INFO] uav_system - 127.0.0.1 POST /sessions/fb8971ec 400 - 30004ms
+2026-07-14 13:04:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 10ms - Role: system
+2026-07-14 13:04:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 5ms - Role: system
+2026-07-14 13:05:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 3ms - Role: system
+2026-07-14 13:05:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:06:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:06:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 5ms - Role: system
+2026-07-14 13:07:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:07:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:08:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:08:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 3ms - Role: system
+2026-07-14 13:09:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 6ms - Role: system
+2026-07-14 13:09:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:10:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:10:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 5ms - Role: system
+2026-07-14 13:11:04 [INFO] uav_system - 127.0.0.1 GET /version 200 - 2ms - Role: agent
+2026-07-14 13:11:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 6ms - Role: system
+2026-07-14 13:11:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:12:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 6ms - Role: system
+2026-07-14 13:12:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 3ms - Role: system
+2026-07-14 13:13:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 10ms - Role: system
+2026-07-14 13:13:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 6ms - Role: system
+2026-07-14 13:14:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 5ms - Role: system
+2026-07-14 13:14:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:15:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:15:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 5ms - Role: system
+2026-07-14 13:16:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 5ms - Role: system
+2026-07-14 13:16:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 3ms - Role: system
+2026-07-14 13:17:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 5ms - Role: system
+2026-07-14 13:17:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:18:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 12ms - Role: system
+2026-07-14 13:18:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 6ms - Role: system
+2026-07-14 13:18:15 [INFO] uav_system - 127.0.0.1 GET /sessions/fb8971ec/data 404 - 1ms - Role: admin
+2026-07-14 13:19:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:19:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:20:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:20:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:21:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 4ms - Role: system
+2026-07-14 13:21:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 3ms - Role: system
+2026-07-14 13:22:08 [INFO] uav_system - 127.0.0.1 POST /sessions/fb8971ec?data=false 400 - 180015ms
+2026-07-14 13:22:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 3ms - Role: system
+2026-07-14 13:22:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 3ms - Role: system
+2026-07-14 13:22:20 [INFO] uav_system - 127.0.0.1 GET /version 200 - 1ms - Role: agent
+2026-07-14 13:23:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 6ms - Role: system
+2026-07-14 13:23:11 [INFO] uav_system - 127.0.0.1 GET /sessions/current/data 200 - 5ms - Role: system

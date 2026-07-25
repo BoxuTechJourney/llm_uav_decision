@@ -32,9 +32,6 @@ import inspect
 import sys
 import uuid
 from datetime import datetime, timezone
-from starlette.middleware.base import BaseHTTPMiddleware
-
-
 from config.util import distance as euclidean_distance, distance_2d
 from config.logging_config import (
     log_api_request,
@@ -203,7 +200,7 @@ def require_current_request_history_role(
 
 # ==================== Logging Middleware ====================
 
-class RequestLoggingMiddleware(BaseHTTPMiddleware):
+class RequestLoggingMiddleware:
     """Middleware to log all API requests and responses"""
 
     # Methods that typically include request bodies
@@ -215,6 +212,9 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
     AGENT_ID_HEADER = "X-Agent-ID"
     DEFAULT_AGENT_ID = "default_agent"
     MAX_AGENT_ID_LENGTH = 128
+
+    def __init__(self, app):
+        self.app = app
 
     @staticmethod
     def _query_value_is_true(value: Any) -> bool:
@@ -331,12 +331,18 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
                 normalized[key] = [normalized[key], value]
         return sanitize_sensitive_data(normalized)
 
-    async def dispatch(self, request: Request, call_next):
-        """Process request and log details"""
+    async def __call__(self, scope, receive, send):
+        """Process one ASGI request without consuming its body for downstream handlers."""
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+
         # Record start time
         start_time = time.time()
         request_timestamp = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
         request_id = str(uuid.uuid4())
+
+        request = Request(scope, receive=receive)
 
         # Get client IP
         client_ip = request.client.host if request.client else "unknown"
@@ -377,76 +383,106 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
         session_id = None
         error_message = None
 
+        # BaseHTTPMiddleware in Starlette 0.27 does not replay a body consumed by
+        # middleware to FastAPI's downstream Request object. Buffer the original
+        # ASGI messages and replay them verbatim instead.
+        request_messages = []
+        replay_index = 0
+
+        async def replay_receive():
+            nonlocal replay_index
+            if replay_index < len(request_messages):
+                message = request_messages[replay_index]
+                replay_index += 1
+                return message
+            return await receive()
+
+        response_body_chunks = []
+        capture_response_body = False
+
+        async def send_and_capture(message):
+            nonlocal status_code
+            nonlocal response_size_bytes
+            nonlocal response_body_type
+            nonlocal response_body_summary
+            nonlocal capture_response_body
+
+            if message["type"] == "http.response.start":
+                status_code = message["status"]
+                response_headers = {
+                    key.decode("latin-1").lower(): value.decode("latin-1")
+                    for key, value in message.get("headers", [])
+                }
+                response_size_bytes = self.parse_content_length(
+                    response_headers.get("content-length")
+                )
+                content_type = response_headers.get("content-type")
+                response_body_type = self.response_body_type(content_type)
+                response_body_summary = self.response_body_summary(
+                    path,
+                    method=method,
+                    query_params=query_params,
+                    content_type=content_type,
+                )
+                capture_response_body = (
+                    path not in self.EXCLUDE_PATHS
+                    and not self.should_skip_body_logging(
+                        path,
+                        method=method,
+                        query_params=query_params,
+                    )
+                    and not response_body_type.startswith("image/")
+                )
+            elif message["type"] == "http.response.body" and capture_response_body:
+                body = message.get("body", b"")
+                if body:
+                    response_body_chunks.append(body)
+
+            await send(message)
+
         try:
-            # Read request body for POST/PUT/DELETE requests
+            # Read and preserve request body messages for POST/PUT/PATCH/DELETE.
             if method in self.BODY_METHODS and path not in self.EXCLUDE_PATHS:
                 try:
-                    body_bytes = await request.body()
+                    while True:
+                        message = await receive()
+                        request_messages.append(message)
+                        if message["type"] == "http.disconnect":
+                            break
+                        if (
+                            message["type"] == "http.request"
+                            and not message.get("more_body", False)
+                        ):
+                            break
+
+                    body_bytes = b"".join(
+                        message.get("body", b"")
+                        for message in request_messages
+                        if message["type"] == "http.request"
+                    )
                     if body_bytes:
                         request_body = json.loads(body_bytes)
                 except Exception as e:
                     # If body is not JSON or cannot be read, log the error
                     request_body = {"error": f"Could not parse request body: {str(e)}"}
 
-            # Process request
-            response = await call_next(request)
-            status_code = response.status_code
-            response_size_bytes = self.parse_content_length(
-                response.headers.get("content-length")
-            )
-            response_body_type = self.response_body_type(
-                response.headers.get("content-type")
-            )
-            response_body_summary = self.response_body_summary(
-                path,
-                method=method,
-                query_params=query_params,
-                content_type=response.headers.get("content-type"),
-            )
+            # Forward the replayable request to FastAPI and observe the response
+            # without consuming or rebuilding its iterator.
+            downstream_receive = replay_receive if request_messages else receive
+            await self.app(scope, downstream_receive, send_and_capture)
 
-            # Try to capture response body for non-streaming responses
-            # Skip binary responses (images, PDFs, etc.) to avoid Content-Length issues
-            skip_body = self.should_skip_body_logging(
-                path,
-                method=method,
-                query_params=query_params,
-            )
-
-            if path not in self.EXCLUDE_PATHS and not skip_body:
+            if capture_response_body:
                 try:
-                    # Read response body
-                    response_body_bytes = b""
-                    async for chunk in response.body_iterator:
-                        response_body_bytes += chunk
+                    response_body_bytes = b"".join(response_body_chunks)
                     if response_size_bytes is None:
                         response_size_bytes = len(response_body_bytes)
 
-                    # Parse response body if it's JSON
                     if response_body_bytes:
                         try:
                             response_body = json.loads(response_body_bytes)
                         except json.JSONDecodeError:
-                            # Not JSON, store as full string (NO TRUNCATION)
                             response_body = response_body_bytes.decode('utf-8', errors='ignore')
-
-                    # Recreate response with the body we just read. Remove any existing
-                    # Content-Length header so Starlette recalculates it for the new body.
-                    response_headers = dict(response.headers)
-                    headers_to_remove = [
-                        key for key in response_headers.keys()
-                        if key.lower() == "content-length"
-                    ]
-                    for key in headers_to_remove:
-                        response_headers.pop(key, None)
-                    response = Response(
-                        content=response_body_bytes,
-                        status_code=status_code,
-                        headers=response_headers,
-                        media_type=response.media_type,
-                        background=getattr(response, "background", None)
-                    )
                 except Exception as e:
-                    # If we can't read the body, just pass through the response
                     error_message = f"Could not capture response body: {str(e)}"
 
         except Exception as e:
@@ -461,8 +497,9 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
             duration_ms = (time.time() - start_time) * 1000
 
             # Try to extract user role from request state (set by authentication)
-            if hasattr(request.state, "user_role"):
-                user_role = request.state.user_role
+            state = scope.get("state", {})
+            if isinstance(state, dict) and "user_role" in state:
+                user_role = state["user_role"]
 
             # Attribute the request to the session active after the response.
             session_controller_ref = globals().get("session_controller")
@@ -531,9 +568,6 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
                 logger.info(
                     f"{client_ip} {method} {full_url} {status_code} - {duration_ms:.0f}ms{role_str}"
                 )
-
-        return response
-
 
 # ==================== End Logging Middleware ====================
 

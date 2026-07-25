@@ -1,8 +1,8 @@
 {
-  "username": "Victor Zhang",
+  "username": "SYSTEM",
   "session_storage_path": "./UAVSessions",
   "template_storage_path": "./templates",
   "api_base_url": "http://127.0.0.1:8000",
   "agent_base_url": "http://localhost:18000",
-  "api_key": ""
+  "api_key": null
 }

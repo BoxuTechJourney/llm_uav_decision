@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import time
 import unittest
@@ -836,6 +837,111 @@ class SessionRequestHistoryTests(unittest.TestCase):
         )
         self.assertFalse(secret_record["success"])
         self.assertIsNone(screenshot_record["response_body"])
+
+    def test_malformed_json_is_replayed_and_logged_without_blocking(self):
+        response = self.client.post(
+            "/sessions",
+            headers={**self.admin_headers, "Content-Type": "application/json"},
+            content=b'{"api_key":"do-not-log",',
+        )
+
+        self.assertEqual(response.status_code, 422, response.text)
+        record = self.session.request_history[-1]
+        self.assertEqual(record["path"], "/sessions")
+        self.assertEqual(record["status_code"], 422)
+        self.assertFalse(record["success"])
+        self.assertIn("error", record["request_body"])
+        self.assertTrue(
+            record["request_body"]["error"].startswith(
+                "Could not parse request body:"
+            )
+        )
+        self.assertNotIn("do-not-log", str(record))
+
+    def test_asgi_middleware_replays_chunked_body_and_forwards_response_messages(self):
+        received_messages = []
+        sent_messages = []
+        incoming_messages = iter(
+            [
+                {"type": "http.request", "body": b'{"action":', "more_body": True},
+                {"type": "http.request", "body": b'"inspect"}', "more_body": False},
+            ]
+        )
+
+        async def receive():
+            return next(incoming_messages)
+
+        async def send(message):
+            sent_messages.append(message)
+
+        async def downstream(_scope, downstream_receive, downstream_send):
+            while True:
+                message = await downstream_receive()
+                received_messages.append(message)
+                if not message.get("more_body", False):
+                    break
+            await downstream_send(
+                {
+                    "type": "http.response.start",
+                    "status": 200,
+                    "headers": [
+                        (b"content-type", b"text/plain"),
+                        (b"content-length", b"12"),
+                    ],
+                }
+            )
+            await downstream_send(
+                {"type": "http.response.body", "body": b"part-1", "more_body": True}
+            )
+            await downstream_send(
+                {"type": "http.response.body", "body": b"part-2", "more_body": False}
+            )
+
+        scope = {
+            "type": "http",
+            "asgi": {"version": "3.0"},
+            "http_version": "1.1",
+            "method": "POST",
+            "scheme": "http",
+            "path": "/chunked-middleware-test",
+            "raw_path": b"/chunked-middleware-test",
+            "query_string": b"",
+            "headers": [],
+            "client": ("127.0.0.1", 50001),
+            "server": ("testserver", 80),
+            "state": {},
+        }
+
+        asyncio.run(
+            asyncio.wait_for(
+                RequestLoggingMiddleware(downstream)(scope, receive, send),
+                timeout=2.0,
+            )
+        )
+
+        self.assertEqual(received_messages[0]["body"], b'{"action":')
+        self.assertTrue(received_messages[0]["more_body"])
+        self.assertEqual(received_messages[1]["body"], b'"inspect"}')
+        self.assertFalse(received_messages[1]["more_body"])
+        self.assertEqual(
+            sent_messages,
+            [
+                {
+                    "type": "http.response.start",
+                    "status": 200,
+                    "headers": [
+                        (b"content-type", b"text/plain"),
+                        (b"content-length", b"12"),
+                    ],
+                },
+                {"type": "http.response.body", "body": b"part-1", "more_body": True},
+                {"type": "http.response.body", "body": b"part-2", "more_body": False},
+            ],
+        )
+        record = self.session.request_history[-1]
+        self.assertEqual(record["request_body"], {"action": "inspect"})
+        self.assertEqual(record["response_body"], "part-1part-2")
+        self.assertEqual(record["status_code"], 200)
 
     def test_request_history_is_omitted_from_export_and_restore(self):
         record = self._request_record(1)
