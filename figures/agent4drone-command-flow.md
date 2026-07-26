@@ -1,0 +1,73 @@
+# Agent4Drone 命令执行时序图
+
+这张图追踪一条自然语言命令从提交、模型决策、工具调用、感知和导航，到完成标记校验与结果返回的全过程。
+
+```mermaid
+%%{init: {"theme": "base", "sequence": {"actorFontSize": 16, "messageFontSize": 15, "noteFontSize": 14, "messageMargin": 30}, "themeVariables": {"background": "#FFFFFF", "fontFamily": "Arial, Microsoft YaHei, sans-serif", "primaryTextColor": "#111827", "lineColor": "#374151", "actorBkg": "#EFF6FF", "actorBorder": "#2563EB", "signalColor": "#374151", "signalTextColor": "#111827", "noteBkgColor": "#FFF7ED", "noteBorderColor": "#EA580C"}}}%%
+sequenceDiagram
+    autonumber
+    actor User as 用户
+    participant Entry as GUI 或 HTTP 服务
+    participant Agent as UAVControlAgent
+    participant LLM as 大语言模型
+    participant Tools as LangChain 工具
+    participant Client as REST 客户端
+    participant Server as 仿真服务器
+
+    User->>Entry: 输入自然语言任务
+    Entry->>Agent: execute(command)
+    Agent->>Agent: 选择命令级或会话级黑板<br/>重建工具和 Agent runtime
+    Agent->>LLM: 系统规则 + 用户任务
+
+    loop 模型判断还需要执行工具
+        LLM->>Tools: 选择工具并提供 JSON 参数
+        alt 查询或局部感知
+            Tools->>Client: list_drones / get_nearby_entities
+            Client->>Server: REST 请求
+            Server-->>Client: 无人机与局部环境 JSON
+            Client-->>Tools: 解析后的结果
+            Tools->>Tools: 更新感知黑板<br/>生成精简摘要
+        else 点到点导航
+            Tools->>Client: 先尝试 move_to
+            Client->>Server: 直接移动请求
+            Server-->>Client: 移动结果
+            alt 直接到达目标
+                Client-->>Tools: success + 最终位置
+            else 直接移动失败
+                Tools->>Client: 获取附近实体
+                Client->>Server: 局部感知请求
+                Server-->>Client: 已感知障碍物
+                Client-->>Tools: 障碍物结果
+                Tools->>Tools: 更新黑板并调用 find_path<br/>生成 A* 避障途经点
+                Tools->>Client: move_along_path
+                Client->>Server: 整条回退路径
+                Server-->>Client: 路径执行结果
+                Client-->>Tools: success / partial_success / failure
+            end
+        else 其他飞行或通信动作
+            Tools->>Client: take_off / land / photo / message 等
+            Client->>Server: 对应 REST 命令
+            Server-->>Client: 命令执行结果
+            Client-->>Tools: JSON 结果
+        end
+        Tools-->>LLM: 精简后的 Observation
+    end
+
+    LLM-->>Agent: 最终说明 + [TASK DONE]
+    alt 回复为空或缺少完成标记
+        Agent->>Agent: 判为未验证完成<br/>最多构造 2 次恢复命令
+        Agent->>LLM: 根据既有步骤继续任务
+        LLM-->>Agent: 恢复后的最终回复（再次校验）
+    else 完成标记有效
+        Agent->>Agent: 接受最终回复
+    end
+    Agent->>Agent: 汇总步骤、Token 与成功或失败状态
+    opt 已开启工具链记录
+        Agent->>Agent: 写入工具链 JSON 和请求历史 JSONL
+    end
+    Agent-->>Entry: result 字典
+    Entry-->>User: 输出、步骤、Token 或异步任务状态
+
+    Note over Entry,Agent: 异步服务的 cancelled 只在回调边界被检查
+    Note over Agent,LLM: [TASK DONE] 是程序验证“模型声明已完成”的硬标记
+```

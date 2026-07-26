@@ -1,0 +1,56 @@
+# Agent4Drone 架构图
+
+这张图展示自然语言命令经过入口、Agent 决策、工具与路径规划，最终到达 MultiUAV-Plat 仿真服务器的关系。
+
+```mermaid
+%%{init: {"theme": "base", "themeVariables": {"background": "#FFFFFF", "fontFamily": "Arial, Microsoft YaHei, sans-serif", "primaryTextColor": "#111827", "lineColor": "#374151"}}}%%
+flowchart TB
+    subgraph entry_layer["入口层：用户从哪里下达命令"]
+        direction LR
+        gui["桌面界面<br/>main.py / Tkinter"]
+        api_service["HTTP 服务<br/>agent_api_service.py / FastAPI"]
+    end
+
+    subgraph agent_layer["决策层：理解任务并循环调用工具"]
+        direction LR
+        agent["核心调度器<br/>UAVControlAgent"]
+        prompt["行为规则<br/>template/system_prompt.py"]
+        llm["外部大语言模型<br/>Ollama / OpenAI 兼容接口"]
+    end
+
+    subgraph capability_layer["能力层：把模型决定变成可靠动作"]
+        direction LR
+        tools["29 个 LangChain 工具<br/>uav_langchain_tools.py"]
+        blackboard["局部感知黑板<br/>blackboard.py"]
+        planner["路径规划<br/>点到点避障 + 多机区域覆盖"]
+        client["REST 客户端<br/>uav_api_client.py"]
+        records["日志与工具链记录<br/>logging_config.py<br/>toolchain_recorder.py"]
+    end
+
+    simulator["MultiUAV-Plat 仿真服务器<br/>无人机、目标、障碍物与任务状态"]
+    user["用户或外部应用"]
+
+    user <-->|"自然语言 / 执行结果"| gui
+    user <-->|"HTTP JSON / 任务状态"| api_service
+    gui <-->|"command / result"| agent
+    api_service <-->|"command / result"| agent
+    prompt -->|"注入安全规则和工具说明"| agent
+    agent <-->|"任务消息 / 工具调用决定"| llm
+    agent -->|"创建并调度"| tools
+    tools <-->|"读取和更新最后已知观测"| blackboard
+    tools <-->|"规划路径 / 返回途经点"| planner
+    tools -->|"调用 Python 方法"| client
+    client <-->|"REST 请求 / JSON 响应"| simulator
+    agent -.->|"运行记录"| records
+    client -->|"API 请求与脱敏结果"| records
+
+    classDef input fill:#ECFDF5,stroke:#059669,color:#064E3B,stroke-width:2px;
+    classDef decision fill:#EFF6FF,stroke:#2563EB,color:#1E3A8A,stroke-width:2px;
+    classDef capability fill:#F5F3FF,stroke:#7C3AED,color:#4C1D95,stroke-width:2px;
+    classDef external fill:#FFF7ED,stroke:#EA580C,color:#7C2D12,stroke-width:2px;
+
+    class user,gui,api_service input;
+    class agent,prompt,llm decision;
+    class tools,blackboard,planner,client,records capability;
+    class simulator external;
+```
