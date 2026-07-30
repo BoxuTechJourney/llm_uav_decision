@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "griduav"
+version = "0.1.0"
+description = "Deterministic multi-UAV grid-search research environment"
+readme = "README.md"
+requires-python = ">=3.11,<3.15"
+dependencies = [
+  "numpy>=2.0,<3",
+  "gymnasium>=1.3,<2",
+  "pettingzoo>=1.26,<2",
+  "PyYAML>=6,<7",
+  "matplotlib>=3.10,<4",
+  "Pillow>=12,<13",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=9,<10"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["griduav*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

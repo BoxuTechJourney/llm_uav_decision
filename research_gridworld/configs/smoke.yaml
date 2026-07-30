@@ -1,0 +1,33 @@
+env:
+  id: GridUAV-Smoke-v0
+  max_steps: 30
+
+grid:
+  width: 8
+  height: 6
+  obstacles:
+    - [2, 2]
+    - [2, 3]
+    - [3, 5]
+
+uavs:
+  - id: uav_0
+    start: [0, 0]
+  - id: uav_1
+    start: [0, 3]
+  - id: uav_2
+    start: [0, 6]
+
+target:
+  placement: random_reachable
+
+sensing:
+  radius_cells: 1
+
+evaluation:
+  seeds: [0, 1]
+  policies: [random, sweep, greedy]
+  output_dir: results
+  write_trace: true
+  write_replay: false
+  replay_mode: public
